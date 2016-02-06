@@ -4,7 +4,7 @@
 
 A set of scripts to query hymnary.org, edit texts found there, and
 store them in databases for further use.  Originally written for the
-preparation of the (Old-Line Primitive Baptist Hymn and Tune Book,)[http://olpbhtb.com] and
+preparation of the [Old-Line Primitive Baptist Hymn and Tune Book](http://olpbhtb.com), and
 being open-sourced for the use of others.
 
 ## State of the Stuff
