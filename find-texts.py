@@ -31,20 +31,14 @@ while True:
 
     fn = "tmp/%s.txt" % uuid.uuid4()
     
-    if len(texts) != 0:
+    menu = ConsoleMenu(texts)
+    hymn = menu.show()
 
-        menu = ConsoleMenu(texts)
-        hymn = menu.show()
-
-        with open(fn, "w") as f:
-            f.write(str(hymn))
-
-    else:
-
-        print("No full texts.")
-
-        with open(fn, "w") as f:
-            f.write("0. ([meter]) [author]\n[hymn text]")
+    if not hymn:
+        continue
+    
+    with open(fn, "w") as f:
+        f.write(str(hymn))
 
     os.system('emacsclient -a "emacs" %s' % fn)
     hymn = hymn_from_string(open(fn, "r").read())

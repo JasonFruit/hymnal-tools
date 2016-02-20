@@ -40,7 +40,11 @@ def hymn_from_string(s):
     header_rgx = re.compile("([0-9]+)\. \(([^(]+)\) (.*)")
     lines = s.split("\n")
     header = lines[0].strip()
-    num, meter, author = header_rgx.findall(header)[0]
+    try:
+        num, meter, author = header_rgx.findall(header)[0]
+    except:
+        num, meter = re.compile("([0-9]+)\. \(([^(]+)\)").findall(header)[0]
+        author = ""
     num = int(num)
 
     hymn = Hymn(meter, author, num=num)

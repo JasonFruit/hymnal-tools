@@ -55,6 +55,14 @@ class Hymnary(object):
         json_text = response.read().decode("utf-8")
         texts = json.loads(json_text)
 
+        if len(texts) == 0:
+            return [("Add new",
+                     Hymn(search_result["meter"],
+                          search_result["authors"],
+                          auth,
+                          "")),
+                    ("Abandon", None)]
+        
         return [(text["title"],
                  self._text_to_hymn(search_result["authors"],
                                     search_result["meter"],
