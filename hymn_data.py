@@ -74,7 +74,7 @@ class HymnData(object):
         try:
             self.cur.execute(get_sql, params)
             return self.cur.fetchone()[0]
-        except:
+        except IndexError:
             self.cur.execute(add_sql, params)
             return self.cur.lastrowid
     def _meter_id_maybe_add(self, meter):

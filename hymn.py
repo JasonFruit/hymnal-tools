@@ -42,7 +42,7 @@ def hymn_from_string(s):
     header = lines[0].strip()
     try:
         num, meter, author = header_rgx.findall(header)[0]
-    except:
+    except ValueError:
         num, meter = re.compile("([0-9]+)\. \(([^(]+)\)").findall(header)[0]
         author = ""
     num = int(num)
