@@ -162,3 +162,9 @@ class HymnData(object):
         out.stanzas.append(stanza)
 
         return out
+
+    def load_hymns(self):
+        self.cur.execute("select num from hymn order by num;")
+        nums = [row[0] for row in self.cur.fetchall()]
+        return [self.load_hymn(num)
+                for num in nums]
