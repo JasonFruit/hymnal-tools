@@ -168,3 +168,8 @@ class HymnData(object):
         nums = [row[0] for row in self.cur.fetchall()]
         return [self.load_hymn(num)
                 for num in nums]
+
+    def hymnal_info(self):
+        self.cur.execute("select title, author, year from info;")
+        title, author, date = self.cur.fetchone()
+        return title, author, date

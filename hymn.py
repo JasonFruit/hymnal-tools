@@ -48,7 +48,7 @@ def hymn_from_string(s):
     num = int(num)
 
     hymn = Hymn(meter, author, num=num)
-    lines = map(lambda s: s.lstrip("\r\n\t0123456789 ").rstrip(),
+    lines = map(lambda s: s.lstrip("\r\n\t0123456789. ").rstrip(),
                 lines[1:])
 
     text = "\n".join(lines)

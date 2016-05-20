@@ -9,6 +9,18 @@ from hymn_data import HymnData
 db = sys.argv[1]
 hymn_data = HymnData(db)
 
+try:
+    title, author, date = hymn_data.hymnal_info()
+    print(title)
+    print("%s (%s)" % (author, date))
+except (IndexError, TypeError):
+    title, author, date = (input("Title: "),
+                           input("Author: "),
+                           input("Year: "))
+    hymn_data.cur.execute("insert into info (title, author, year) values (?, ?, ?)",
+                          (title, author, date))
+    hymn_data.cur.connection.commit()
+
 print("Last hymn entered: #%s." % hymn_data.max_hymn_num())
 
 hymnary = Hymnary()

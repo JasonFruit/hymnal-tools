@@ -1,3 +1,9 @@
+create table info (
+    title text,
+    author text,
+    year text
+);
+
 create table meter (
     id integer not null primary key,
     description varchar(30) not null

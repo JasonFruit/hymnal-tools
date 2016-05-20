@@ -41,7 +41,7 @@ class Hymnary(object):
         
         for st in stanzas_texts:
             stanza = Stanza(st_num,
-                            [line.strip()
+                            [line.strip().lstrip("1234567890. ")
                              for line in st.split("\n\r\n")])
             out.stanzas.append(stanza)
             st_num += 1

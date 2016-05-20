@@ -1,36 +1,26 @@
 import sys
 from hymn_data import HymnData
 
-class MarkdownEmitter(object):
-    def open(self, filename):
-        self.file = open(filename, "w")
+from MarkdownEmitter import MarkdownEmitter
+from LatexEmitter import LatexEmitter
+from HtmlEmitter import HtmlEmitter
 
-    def emit_category(self, category):
-        self.file.write("\n## %s\n\n" % category)
-
-    def emit_header(self, num, meter, author):
-        if author == "":
-            self.file.write("**%s**. (%s)  \n" %
-                            (num, meter))
-        else:
-            self.file.write("**%s**. (%s) **%s**  \n" %
-                            (num, meter, author))
-
-    def emit_stanza(self, stanza):
-        self.file.write("%s %s  \n" % (stanza.num, stanza[0]))
-        for line in stanza[1:]:
-            self.file.write("%s  \n" % line)
-        self.file.write("\n")
-
-    def finalize(self):
-        self.file.close()
-
+emitters = {"latex": LatexEmitter,
+            "markdown": MarkdownEmitter,
+            "html": HtmlEmitter}
+        
 class HymnalFormatter(object):
     def __init__(self, db, emitter):
-        self.hymns = HymnData(db).load_hymns()
+        hd = HymnData(db)
+        self.title, self.author, self.date = hd.hymnal_info()
+        self.hymns = hd.load_hymns()
         self.emitter = emitter
     def format(self, filename):
-        self.emitter.open(filename)
+        
+        self.emitter.initialize(filename,
+                                self.title,
+                                self.author,
+                                self.date)
 
         category = ""
 
@@ -46,10 +36,12 @@ class HymnalFormatter(object):
             for stanza in hymn.stanzas:
                 self.emitter.emit_stanza(stanza)
 
+            self.emitter.emit_footer()
+            
         self.emitter.finalize()
 
 if __name__ == "__main__":
-    db, out = sys.argv[1:]
+    fmt, db, out = sys.argv[1:]
     hf = HymnalFormatter(db,
-                         MarkdownEmitter())
+                         emitters[fmt]())
     hf.format(out)
