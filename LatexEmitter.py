@@ -6,7 +6,7 @@ class LatexEmitter(object):
         self.file = open(filename, "w")
 
         self.emit(r"""\documentclass{book}
-
+\usepackage[papersize={5.5in,8.5in}]{geometry}
 \usepackage{verse}
 \title{%s}
 \author{%s}
@@ -15,6 +15,7 @@ class LatexEmitter(object):
 \begin{document}
 
 \maketitle
+
 \tableofcontents
 
 """ % (title, author, date))
@@ -33,7 +34,7 @@ class LatexEmitter(object):
         self.emit("\\begin{altverse}\n")
         self.emit("\\flagverse{%s} " % stanza.num)
         for line in stanza:
-            self.emit("%s\\\\\n" % line)
+            self.emit("%s\\\\\n" % line.replace("&", r"\&"))
         self.emit("\\end{altverse}\n\\vspace{0.4em}\n\n")
 
     def emit_footer(self):
